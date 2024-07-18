@@ -321,6 +321,23 @@ class LandmarksViewModel: NSObject, ObservableObject, AVCaptureVideoDataOutputSa
                 let leftOutput = try! await model.prediction(from: leftEyeInput).featureValue(for: "linear_1")
                 let rightOutput = try! await model.prediction(from: leftEyeInput).featureValue(for: "linear_1")
                 
+                if let leftOutput {
+                    let leftGaze = multiArrayToCGPoint(leftOutput.multiArrayValue!)
+                    
+                    let gaze = leftGaze!.attentionPoint(windowSize: NSScreen.main!.frame.size)
+                    let gazeNormalized = Vector(
+                        x: gaze.x / NSScreen.main!.frame.size.width,
+                        y: gaze.y / NSScreen.main!.frame.size.width
+                    )
+                    
+                    WebsocketManager.shared.user = User(
+                        deviceId: WebsocketManager.shared.user?.deviceId ?? "err",
+                        name: WebsocketManager.shared.user?.name ?? "err",
+                        gaze: gazeNormalized,
+                        isCheating: gazeNormalized.y < 0 || gazeNormalized.y > 1 || gazeNormalized.x < 0 || gazeNormalized.x > 1
+                    )
+                }
+                
                 Task { @MainActor in
                     if let leftOutput {
                         self.leftGaze = multiArrayToCGPoint(leftOutput.multiArrayValue!)

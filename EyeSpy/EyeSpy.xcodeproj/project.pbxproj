@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9808F9AC2C49A50300F2FEBA /* RoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9808F9AB2C49A50300F2FEBA /* RoomView.swift */; };
+		9808F9AF2C49A66F00F2FEBA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9808F9AE2C49A66D00F2FEBA /* User.swift */; };
 		98C5055F2C464E8D00A7B045 /* EyeSpyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C5055E2C464E8D00A7B045 /* EyeSpyApp.swift */; };
 		98C505612C464E8D00A7B045 /* LandmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C505602C464E8D00A7B045 /* LandmarksView.swift */; };
 		98C505632C464E8E00A7B045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C505622C464E8E00A7B045 /* Assets.xcassets */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9808F9AB2C49A50300F2FEBA /* RoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomView.swift; sourceTree = "<group>"; };
+		9808F9AE2C49A66D00F2FEBA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		98C5055B2C464E8D00A7B045 /* EyeSpy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeSpy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C5055E2C464E8D00A7B045 /* EyeSpyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EyeSpyApp.swift; sourceTree = "<group>"; };
 		98C505602C464E8D00A7B045 /* LandmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarksView.swift; sourceTree = "<group>"; };
@@ -39,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9808F9AD2C49A66300F2FEBA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9808F9AE2C49A66D00F2FEBA /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		98C505522C464E8D00A7B045 = {
 			isa = PBXGroup;
 			children = (
@@ -59,9 +71,9 @@
 			isa = PBXGroup;
 			children = (
 				98C505642C464E8E00A7B045 /* Preview Content */,
+				9808F9AD2C49A66300F2FEBA /* Models */,
 				98C5058B2C464F0F00A7B045 /* Views */,
 				98C5055E2C464E8D00A7B045 /* EyeSpyApp.swift */,
-				98C505602C464E8D00A7B045 /* LandmarksView.swift */,
 				98C5057A2C464EB500A7B045 /* Gaze.mlpackage */,
 				98C5057C2C464ECF00A7B045 /* Info.plist */,
 				98C505622C464E8E00A7B045 /* Assets.xcassets */,
@@ -82,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				98C5058A2C464F0F00A7B045 /* PlayerView.swift */,
+				98C505602C464E8D00A7B045 /* LandmarksView.swift */,
+				9808F9AB2C49A50300F2FEBA /* RoomView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,7 +173,9 @@
 			files = (
 				98C5057B2C464EB500A7B045 /* Gaze.mlpackage in Sources */,
 				98C505612C464E8D00A7B045 /* LandmarksView.swift in Sources */,
+				9808F9AF2C49A66F00F2FEBA /* User.swift in Sources */,
 				98C5055F2C464E8D00A7B045 /* EyeSpyApp.swift in Sources */,
+				9808F9AC2C49A50300F2FEBA /* RoomView.swift in Sources */,
 				98C5058C2C464F0F00A7B045 /* PlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,12 +307,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EyeSpy/EyeSpy.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeSpy/Preview Content\"";
+				DEVELOPMENT_TEAM = USDCL8J49X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeSpy/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera fun";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -306,6 +325,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.EyeSpy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -317,12 +337,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EyeSpy/EyeSpy.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EyeSpy/Preview Content\"";
+				DEVELOPMENT_TEAM = USDCL8J49X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EyeSpy/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera fun";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -332,6 +355,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.EyeSpy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};

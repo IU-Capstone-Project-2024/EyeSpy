@@ -1,3 +1,4 @@
+import json
 import secrets
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
@@ -32,7 +33,9 @@ async def websocket_endpoint(code: str, websocket: WebSocket):
 
     while True:
         try:
-            data = await websocket.receive_json()
+            data = json.loads(
+                (await websocket.receive_bytes()).decode('utf8')
+            )
             user = User(**data)
             rooms[code].users[user.device_id] = user
             device_id = user.device_id
@@ -53,6 +56,9 @@ async def websocket_endpoint(code: str, websocket: WebSocket):
 async def websocket_endpoint(code: str, websocket: WebSocket):
     await websocket.accept()
     rooms_sockets[code].append(websocket)
+    await websocket.send_json(
+        rooms[code].dict()
+    )
 
     while True:
         try:

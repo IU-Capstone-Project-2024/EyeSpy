@@ -11,7 +11,7 @@ import SwiftUI
 struct EyeSpyApp: App {
     var body: some Scene {
         WindowGroup {
-            LandmarksView()
+            RoomView()
         }
     }
 }
