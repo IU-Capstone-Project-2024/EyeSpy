@@ -1,0 +1,61 @@
+import secrets
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+
+from .models.room import Room
+from .models.user import User
+
+app = FastAPI()
+
+rooms = {}
+rooms_sockets = {}
+
+
+@app.post('/api/rooms')
+def create_room() -> Room:
+    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+    code = "".join(secrets.choice(chars) for _ in range(7))
+
+    room = Room(
+        code=code,
+        users={}
+    )
+    rooms[code] = room
+    rooms_sockets[code] = []
+
+    return room
+
+
+@app.websocket("/ws/rooms/{code}/client")
+async def websocket_endpoint(code: str, websocket: WebSocket):
+    await websocket.accept()
+    device_id = None
+
+    while True:
+        try:
+            data = await websocket.receive_json()
+            user = User(**data)
+            rooms[code].users[user.device_id] = user
+            device_id = user.device_id
+
+            for socket in rooms_sockets[code]:
+                await socket.send_json(
+                    rooms[code].dict()
+                )
+        except WebSocketDisconnect:
+            del rooms[code].users[device_id]
+            for socket in rooms_sockets[code]:
+                await socket.send_json(
+                    rooms[code].dict()
+                )
+
+
+@app.websocket("/ws/rooms/{code}/console")
+async def websocket_endpoint(code: str, websocket: WebSocket):
+    await websocket.accept()
+    rooms_sockets[code].append(websocket)
+
+    while True:
+        try:
+            await websocket.receive_json()
+        except WebSocketDisconnect:
+            rooms_sockets[code].remove(websocket)
