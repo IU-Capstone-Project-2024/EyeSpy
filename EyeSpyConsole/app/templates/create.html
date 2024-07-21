@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EyeSpyConsole</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+    />
+    <style>
+      body,
+      html,
+      .paper {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="paper">
+      <h1>Welcome to EyeSpyConsole</h1>
+      <p>Create your first room bu clicking button.</p>
+
+      <button onclick="createRoom()" class="btn-secondary">Create room</button>
+    </div>
+    <script>
+      function createRoom() {
+        fetch("/api/rooms", {
+          method: "POST",
+        })
+          .then((res) => res.json())
+          .then((room) => {
+            document.location = `/rooms/${room.code}`;
+          });
+      }
+    </script>
+  </body>
+</html>

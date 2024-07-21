@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EyeSpyConsole</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+    />
+    <style>
+      body,
+      html,
+      .paper {
+        margin: 0;
+        height: 100%;
+      }
+
+      .pointer {
+        width: 2rem;
+        height: 2rem;
+        transform: translateX(-50%) translateY(-50%);
+        background: blue;
+        border-radius: 2rem;
+        position: relative;
+      }
+
+      #users {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .card.cheating {
+        border-color: var(--danger);
+      }
+
+      .card.cheating .card-footer {
+        background-color: var(--danger-light);
+      }
+
+      .card.not-cheating {
+        border-color: var(--success);
+      }
+
+      .card.not-cheating .card-footer {
+        background-color: var(--success-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="paper">
+      <p>Room code: {{code}}</p>
+      <div id="users"></div>
+    </div>
+    <script>
+      const socket = new WebSocket(
+        `ws://${document.location.host}/ws/rooms/{{code}}/console`
+      );
+      const users = document.getElementById("users");
+      socket.addEventListener("message", (event) => {
+        users.innerHTML = "";
+        const room = JSON.parse(event.data);
+
+        let usersGrid = "";
+        Object.values(room.users).forEach((user) => {
+          usersGrid += `
+            <div class="card ${
+              user.is_cheating ? "cheating" : "not-cheating"
+            }" style="width: 20rem">
+                <div style="height: 12rem; overflow: hidden;">
+                    <div class="pointer" style="left: calc(20rem * ${
+                      user.gaze.x
+                    }); top: calc(12rem * ${user.gaze.y})"></div>
+                </div>
+                <div class="card-footer">
+                    ${user.name} – ${
+            user.is_cheating ? "Cheating" : "Not cheating"
+          }
+                </div>
+            </div>
+            `;
+        });
+        users.innerHTML = usersGrid;
+      });
+    </script>
+  </body>
+</html>

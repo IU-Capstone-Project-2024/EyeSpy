@@ -1,6 +1,8 @@
 import json
 import secrets
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from .models.room import Room
 from .models.user import User
@@ -9,6 +11,22 @@ app = FastAPI()
 
 rooms = {}
 rooms_sockets = {}
+
+templates = Jinja2Templates(directory="app/templates")
+
+
+@app.get('/', response_class=HTMLResponse)
+def index(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="create.html"
+    )
+
+
+@app.get('/rooms/{code}', response_class=HTMLResponse)
+def room(code: str, request: Request):
+    return templates.TemplateResponse(
+        request=request, name="room.html", context={"code": code}
+    )
 
 
 @app.post('/api/rooms')
@@ -50,6 +68,7 @@ async def websocket_endpoint(code: str, websocket: WebSocket):
                 await socket.send_json(
                     rooms[code].dict()
                 )
+            return
 
 
 @app.websocket("/ws/rooms/{code}/console")
